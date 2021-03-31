@@ -1,5 +1,5 @@
 Flask==1.1.2
-Flas-Login==0.5.0
+Flask-Login==0.5.0
 Flask-SQLAlchemy==2.5.1
 FLask-WTF==0.14.3
 itsdangerous==1.1.0
@@ -13,7 +13,7 @@ Werkzeug==1.0.1
 WTForms==2.3.3
 flask_bcrypt==0.7.1
 gunicorn==20.1.0
-numpy==1.20.3
+numpy==1.19.5
 bcrypt==3.2.0
 email-validator==1.1.2
 MarkupSafe==1.1.1

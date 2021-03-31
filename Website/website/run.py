@@ -16,16 +16,6 @@ import sys
 import _pickle as pk
 from PIL import Image
 
-'''
-sys.path.append('./Analysis.py')
-sys.path.append('./Visualiser.py')
-sys.path.append('./ColumnSelector.py')
-sys.path.append('./PredictorSelector.py')
-sys.path.append('./EncoderSelector.py')
-sys.path.append('./DataTransformer.py')
-sys.path.append('./CrossValidator.py')
-sys.path.append('./Models.py')
-'''
 
 import website.Analysis as an
 import website.Visualiser as vs
@@ -34,7 +24,7 @@ import website.PredictorSelector as ps
 import website.EncoderSelector as es
 import website.DataTransformer as dt
 import website.CrossValidator as cv
-import website.Models as m
+import website.models as m
 
 
 class handler:

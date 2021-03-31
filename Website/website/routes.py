@@ -133,7 +133,7 @@ def save_picture(form_picture):
 def save_csv(form_csv, user_id):
 	random_hex = secrets.token_hex(8)
 	f_name, f_ext = os.path.splitext(form_csv.filename)
-	file_fn = random_hex #random_hex + f_ext
+	file_fn = random_hex + f_ext
 	user_path = os.path.join(app.root_path, 'static/file_system', str(user_id))
 	if os.path.isdir(user_path) == False:
 		os.mkdir(user_path)
