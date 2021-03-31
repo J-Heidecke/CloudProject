@@ -81,11 +81,11 @@ def query():
 	form = DataInputForm()
 	if form.validate_on_submit():
 		if form.csv.data:
-			csv_file, csv_name, user_path, data_frame, recover_title = save_csv(form.csv.data, current_user.id)
+			csv_file, csv_name, ''' user_path''', data_frame, recover_title = save_csv(form.csv.data, current_user.id)
 			query = Query(name=csv_name, title=csv_file, recover_title=recover_title, user_id=current_user.id)
 			db.session.add(query)
 			db.session.commit()
-			data_handler = handler(user_path=user_path, data_frame=data_frame, file_name=csv_file, ml_type='classification', target='room_type')
+			data_handler = handler('''user_path=user_path,''' data_frame=data_frame, file_name=csv_file, ml_type='classification', target='room_type')
 			data_handler.save_data()
 			flash('Your query has been submitted', 'success')
 			return redirect(url_for('results'))
@@ -134,7 +134,8 @@ def save_csv(form_csv, user_id):
 	random_hex = secrets.token_hex(8)
 	f_name, f_ext = os.path.splitext(form_csv.filename)
 	file_fn = random_hex + f_ext
-	user_path = os.path.join(app.root_path, 'static/file_system', str(user_id))
+	#user_path = os.path.join(app.root_path, 'static/file_system', str(user_id))
+	'''
 	if os.path.isdir(user_path) == False:
 		os.mkdir(user_path)
 		new_path = os.path.join(user_path, 'data')
@@ -143,7 +144,8 @@ def save_csv(form_csv, user_id):
 		os.mkdir(new_path)
 
 	file_path = os.path.join(user_path, 'data', file_fn)
+	'''
 	df = pd.read_csv(form_csv)
 	df.to_csv(file_path, encoding='utf8')
 
-	return file_fn, f_name, user_path, df, random_hex
+	return file_fn, f_name ''', user_path''' , df, random_hex

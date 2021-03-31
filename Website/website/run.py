@@ -28,22 +28,22 @@ import website.models as m
 
 
 class handler:
-    def __init__(self, user_path, data_frame, file_name, ml_type, target):
+    def __init__(self, data_frame, file_name, ml_type, target):
         self.data_frame = data_frame
         self.ml_type = ml_type
         self.target = target
         self.file_name = file_name
-        self.user_path = user_path
-        self.results_path = os.path.join(user_path + '/results')
-        f_name, f_ext = os.path.splitext(self.file_name) 
-        self.query_path = os.path.join(self.results_path + '/'+ f_name)
+        #self.user_path = user_path
+        #self.results_path = os.path.join(user_path + '/results')
+        #f_name, f_ext = os.path.splitext(self.file_name) 
+        #self.query_path = os.path.join(self.results_path + '/'+ f_name)
         
     def analysis(self):
-        if os.path.isdir(self.query_path) == False:
-            os.mkdir(self.query_path)
+        #if os.path.isdir(self.query_path) == False:
+        #    os.mkdir(self.query_path)
 
-        output = []
-        output_metrics = []
+        #output = []
+        #output_metrics = []
 
         # create data wrangler object 
         data_wrangler = an.DataWrangler(self.data_frame, ['id', 'host_id'])
@@ -57,7 +57,7 @@ class handler:
 
         # create visualiser object
         cleaned_data = data_wrangler.dataset()
-        visualiser = vs.Visualiser(cleaned_data, self.query_path)
+        visualiser = vs.Visualiser(cleaned_data)
 
         #plot graphs
         fig_box = visualiser.plot_boxplot(kind='box')
@@ -232,7 +232,9 @@ class handler:
 
     def save_data(self):
         output, output_metrics = self.analysis()
-
+        print('Ive arrived')
+        '''
         output_path = os.path.join(self.query_path + '/' + 'metrics.ob')
         with open(output_path, 'wb') as fp:
             pk.dump(output_metrics, fp)
+        '''

@@ -19,9 +19,9 @@ import sys
 
 class Visualiser:
     
-    def __init__(self, data, query_path):
+    def __init__(self, data):
         self.data = data
-        self.query_path = query_path
+        #self.query_path = query_path
     
     def plot_boxplot(self, kind='box', rot=90, title='Boxplot', figsize=None, figsave=False, savepath=None):
         """Plots a boxplot graph of the data"""
@@ -38,8 +38,8 @@ class Visualiser:
             if savepath is not None:
                 self.save_fig(path=savepath, fig_id=kind)
         #plt.show()
-        picture_path = os.path.join(self.query_path + '/' + 'plot1.png')
-        plt.savefig(picture_path)
+        #picture_path = os.path.join(self.query_path + '/' + 'plot1.png')
+        #plt.savefig(picture_path)
         return fig
 
     
@@ -59,8 +59,8 @@ class Visualiser:
                 self.save_fig(path=savepath, fig_id='hist')
             
         #plt.show()
-        picture_path = os.path.join(self.query_path + '/' + 'plot2.png')
-        plt.savefig(picture_path)
+        #picture_path = os.path.join(self.query_path + '/' + 'plot2.png')
+       # plt.savefig(picture_path)
         return fig
 
     
@@ -75,4 +75,4 @@ class Visualiser:
         if tight_layout:
             plt.tight_layout()
         # save the figure
-        plt.savefig(path, format=fig_extension, dpi=resolution)
+        #plt.savefig(path, format=fig_extension, dpi=resolution)
