@@ -7,7 +7,7 @@ from website import app, db, bcrypt
 from website.forms import RegistrationForm, LoginForm, UpdateAccountForm, DataInputForm
 from website.db_models import User, Query
 from flask_login import login_user, current_user, logout_user, login_required
-from website.run import handler
+from website.ml import handler
 import _pickle as pk
 
 @app.route("/")
