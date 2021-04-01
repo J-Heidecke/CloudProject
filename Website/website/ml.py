@@ -107,12 +107,11 @@ class crossValidation:
         return result
 
 class handler:
-    def __init__(self, data_frame, file_name, ml_type, target, results_path):
+    def __init__(self, data_frame, file_name, ml_type, target):
         self.data_frame = data_frame
         self.ml_type = ml_type
         self.target = target
         self.file_name = file_name
-        self.results_path = results_path
 
     def data_wrangler(self):
         if self.ml_type == 'classification':
@@ -151,8 +150,8 @@ class handler:
 
     def save_data(self):
         output = self.analysis()
-        f_name = self.file_name + 'metrics.ob'
-        output_path = os.path.join( self.results_path, f_name)
+        #f_name = self.file_name + 'metrics.ob'
+        #output_path = os.path.join( self.results_path, f_name)
         with open(output_path, 'wb') as fp:
             pk.dump(output, fp)
 
