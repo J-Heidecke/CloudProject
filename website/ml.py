@@ -125,37 +125,52 @@ class handler:
             X = self.data_frame[result].values
             y = self.data_frame[self.target].values
             del self.data_frame
-            del self.ml_type
             return X, y
 
         elif self.my_type == 'regression':
             del self.data_frame
-            del self.ml_type
 
     def analysis(self):
         X, y = self.data_wrangler()
         output = []
-        model_list = [DecisionTreeClassifier(criterion = 'entropy'),KNeighborsClassifier(),
-                     RandomForestClassifier(n_estimators=10,criterion="entropy")]
-        for model in model_list:
 
-            name = str(model).split('(')
-            name_dict = {}
-            model_output = []
-            results = crossValidation(model, X, y)
-            np.max(results.evaluateK(20))
-            name_dict[name[0]] = np.max(results.evaluateK(20))
-            output.append(name_dict)
+        if self.ml_type == 'classification':
+            model_list = [DecisionTreeClassifier(criterion = 'entropy'),KNeighborsClassifier(),
+                        RandomForestClassifier(n_estimators=10,criterion="entropy")]
+            for model in model_list:
 
-        return output
+                name = str(model).split('(')
+                name_dict = {}
+                model_output = []
+                results = crossValidation(model, X, y)
+                np.max(results.evaluateK(20))
+                name_dict[name[0]] = np.max(results.evaluateK(20))
+                output.append(name_dict)
+
+            return output
+
+        elif self.ml_type == 'regression':
+            model_list = []
+
+            for model in model_list:
+
+                name = str(model).split('(')
+                name_dict = {}
+                model_output = []
+                output.append(name_dict)
+
+            return output
 
     def save_data(self):
         output = self.analysis()
         results_path = os.path.join(self.user_path, 'results')
         if os.path.isdir(results_path) == False:
             os.mkdir(results_path)
+        query_path = os.path.join(results_path, self.file_name)
+        if os.path.isdir(query_path) == False:
+            os.mkdir(query_path)
         f_name = self.file_name + 'metrics.ob'
-        output_path = os.path.join(results_path, f_name)
+        output_path = os.path.join(query_path, f_name)
         with open(output_path, 'wb') as fp:
             pk.dump(output, fp)
 

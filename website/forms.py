@@ -70,5 +70,8 @@ class DataInputForm(FlaskForm):
 
 	csv = FileField('Submit CSV File', validators=[DataRequired(), FileAllowed(['csv'])])
 
+	ml_type = StringField('Machine Learning Type', validators=[DataRequired()])
+	target = StringField('Target', validators=[DataRequired()])
+
 	submit = SubmitField('Submit File')
 			

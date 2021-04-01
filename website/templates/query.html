@@ -41,6 +41,32 @@
                   	{% endif %}                   
                  	</div> 
                  	<div class="form-group">
+                    {{ form.ml_type.label(class="form-control-label") }}
+                    {% if form.ml_type.errors %}
+                        {{ form.ml_type(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.ml_type.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.ml_type(class="form-control form-control-lg") }}
+                    {% endif %}
+               		</div>
+               		<div class="form-group">
+                    {{ form.target.label(class="form-control-label") }}
+                    {% if form.target.errors %}
+                        {{ form.target(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.target.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.target(class="form-control form-control-lg") }}
+                    {% endif %}
+               		</div>
+                 	<div class="form-group">
                 		{{ form.submit(class="btn btn-outline-info") }}
             		</div>
         	</fieldset>

@@ -25,6 +25,7 @@ class Query(db.Model):
     recover_title = db.Column(db.String(100), nullable=False)
     ml_type = db.Column(db.String(20), nullable=False, default='Regression')
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    is_calculated = db.Column(db.String, nullable=False, default='False')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):

@@ -2,12 +2,13 @@ import os
 import secrets
 import pandas as pd
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, send_from_directory
 from website import app, db, bcrypt 
 from website.forms import RegistrationForm, LoginForm, UpdateAccountForm, DataInputForm
 from website.db_models import User, Query
 from flask_login import login_user, current_user, logout_user, login_required
 from website.ml import handler
+from website.visualizations import create_vis
 import _pickle as pk
 
 @app.route("/")
@@ -82,11 +83,21 @@ def query():
 	if form.validate_on_submit():
 		if form.csv.data:
 			csv_file, csv_name, user_path, data_frame, recover_title = save_csv(form.csv.data, current_user.id)
-			query = Query(name=csv_name, title=csv_file, recover_title=recover_title, user_id=current_user.id)
+			query = Query(name=csv_name, title=csv_file,
+						 recover_title=recover_title, user_id=current_user.id,
+						 ml_type=form.ml_type.data)
 			db.session.add(query)
 			db.session.commit()
-			data_handler = handler(user_path=user_path, data_frame=data_frame, file_name=recover_title, ml_type='classification', target='target')
+			data_handler = handler(user_path=user_path, data_frame=data_frame,
+								file_name=recover_title, ml_type=form.ml_type.data,
+								target=form.target.data)
+
 			data_handler.save_data()
+
+			user_path = os.path.join(app.root_path, 'static/file_system', str(current_user.id))
+			vis = create_vis(job_name=recover_title, file_system_path=user_path)
+			vis.load_data()
+
 			flash('Your query has been submitted', 'success')
 			return redirect(url_for('results'))
 
@@ -96,7 +107,7 @@ def query():
 @login_required
 def results():
 	posts = Query.query.filter_by(user_id=current_user.id).all()
-
+	#return send_from_directory(download_path, filename='plot1.png')
 	return render_template('results.html', title='Results', posts=posts)
 
 def save_picture(form_picture):
