@@ -17,7 +17,7 @@
 set -x
 
 MY_INSTANCE_NAME="my-instance-name"
-ZONE=us-central1-f
+ZONE=europe-west2-a
 
 gcloud compute instances delete $MY_INSTANCE_NAME \
     --zone=$ZONE --delete-disks=all
