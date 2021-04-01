@@ -85,7 +85,7 @@ def query():
 			query = Query(name=csv_name, title=csv_file, recover_title=recover_title, user_id=current_user.id)
 			db.session.add(query)
 			db.session.commit()
-			data_handler = handler(user_path=user_path, data_frame=data_frame, file_name=recover_title, ml_type='classification', target='room_type')
+			data_handler = handler(user_path=user_path, data_frame=data_frame, file_name=recover_title, ml_type='classification', target='target')
 			data_handler.save_data()
 			flash('Your query has been submitted', 'success')
 			return redirect(url_for('results'))
