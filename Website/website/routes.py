@@ -8,7 +8,7 @@ from website import app, db, bcrypt
 from website.forms import RegistrationForm, LoginForm, UpdateAccountForm, DataInputForm
 from website.db_models import User, Query
 from flask_login import login_user, current_user, logout_user, login_required
-from website.run import handler
+from website.ml import handler
 import _pickle as pk
 
 
@@ -119,11 +119,11 @@ def query():
 	if form.validate_on_submit():
 		if form.csv.data:
 			# Save CSV file in directory and database
-			csv_file, csv_name, data_frame, recover_title = save_csv(form.csv.data, current_user.id)
+			csv_file, csv_name, data_frame, recover_title, results_path = save_csv(form.csv.data, current_user.id)
 			query = Query(name=csv_name, title=csv_file, recover_title=recover_title, user_id=current_user.id)
 			db.session.add(query)
 			db.session.commit()
-			data_handler = handler(data_frame=data_frame, file_name=csv_file, ml_type='classification', target='room_type')
+			data_handler = handler(data_frame=data_frame, file_name=recover_title, ml_type='classification', target='target', results_path=results_path)
 			data_handler.save_data()
 			flash('Your query has been submitted', 'success')
 			return redirect(url_for('results'))
@@ -135,25 +135,6 @@ def query():
 @login_required
 def results():
 	posts = Query.query.filter_by(user_id=current_user.id).all()
-	'''
-	outcomes = []
-	for post in posts:
-		post_values = []
-		current_post = post.recover_title
-		test_path = os.path.join('static/file_system/' + str(post.user_id) + '/results/'+ post.recover_title + '/plot1.png')
-		print(os.listdir(test_path))
-		im1 = os.path.join('static/file_system/' + str(post.user_id) + '/results/' + post.recover_title + '/plot1.png')
-		post_values.append(im1)
-		im2 = os.path.join('static/file_system/' + str(post.user_id) + '/results/' + post.recover_title + '/plot2.png')
-		post_values.append(im2)
-		metrics = os.path.join('static/file_system/' + str(post.user_id) + '/results/' + post.recover_title + '/metrics.ob')
-		infile = open(metrics,'rb')
-		output = pk.load(infile)
-		infile.close()
-		post_values.append(output)
-		outcomes.append(post_values)
-	'''
-
 	return render_template('results.html', title='Results', posts=posts)
 
 # Save profile picture
@@ -182,19 +163,11 @@ def save_csv(form_csv, user_id):
 	file_fn = random_hex + f_ext
 	# Save file in a new directory
 	# Create data and results sub-directory
-	#user_path = os.path.join(app.root_path, 'static/file_system', str(user_id))
-	'''
-	if os.path.isdir(user_path) == False:
-		os.mkdir(user_path)
-		new_path = os.path.join(user_path, 'data')
-		os.mkdir(new_path)
-		new_path =  os.path.join(user_path, 'results')
-		os.mkdir(new_path)
+	file_path = os.path.join(app.root_path, 'static/file_system/data', file_fn)
+	results_path = os.path.join(app.root_path, 'static/file_system/results')
 
-	file_path = os.path.join(user_path, 'data', file_fn)
-	'''
 	# Save CSV file
 	df = pd.read_csv(form_csv)
-	#df.to_csv(file_path, encoding='utf8')
+	df.to_csv(file_path, encoding='utf8')
 
-	return file_fn, f_name, df, random_hex
+	return file_fn, f_name, df, random_hex, results_path
