@@ -96,24 +96,6 @@ def query():
 @login_required
 def results():
 	posts = Query.query.filter_by(user_id=current_user.id).all()
-	'''
-	outcomes = []
-	for post in posts:
-		post_values = []
-		current_post = post.recover_title
-		test_path = os.path.join('static/file_system/' + str(post.user_id) + '/results/'+ post.recover_title + '/plot1.png')
-		print(os.listdir(test_path))
-		im1 = os.path.join('static/file_system/' + str(post.user_id) + '/results/' + post.recover_title + '/plot1.png')
-		post_values.append(im1)
-		im2 = os.path.join('static/file_system/' + str(post.user_id) + '/results/' + post.recover_title + '/plot2.png')
-		post_values.append(im2)
-		metrics = os.path.join('static/file_system/' + str(post.user_id) + '/results/' + post.recover_title + '/metrics.ob')
-		infile = open(metrics,'rb')
-		output = pk.load(infile)
-		infile.close()
-		post_values.append(output)
-		outcomes.append(post_values)
-	'''
 
 	return render_template('results.html', title='Results', posts=posts)
 

@@ -113,7 +113,6 @@ class handler:
         self.target = target
         self.file_name = file_name
         self.user_path = user_path
-        self.results_path = os.path.join(self.user_path, 'results')
 
     def data_wrangler(self):
         if self.ml_type == 'classification':
@@ -152,8 +151,11 @@ class handler:
 
     def save_data(self):
         output = self.analysis()
+        results_path = os.path.join(self.user_path, 'results')
+        if os.path.isdir(results_path) == False:
+            os.mkdir(results_path)
         f_name = self.file_name + 'metrics.ob'
-        output_path = os.path.join( self.results_path, f_name)
+        output_path = os.path.join(results_path, f_name)
         with open(output_path, 'wb') as fp:
             pk.dump(output, fp)
 
