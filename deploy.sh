@@ -15,7 +15,7 @@
 set -ex
 
 # [START getting_started_gce_create_instance]
-MY_INSTANCE_NAME="my-app-instance"
+MY_INSTANCE_NAME="my-app-cloud-project-20212"
 ZONE=europe-west2-a
 
 gcloud compute instances create $MY_INSTANCE_NAME \
