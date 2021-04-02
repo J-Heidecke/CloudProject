@@ -30,7 +30,7 @@ useradd -m -d /home/pythonapp pythonapp
 
 # Fetch source code
 export HOME=/root
-git clone https://github.com/J-Heidecke/CloudProject.git
+git clone https://github.com/J-Heidecke/CloudProject.git /opt/app
 
 # Python environment setup
 virtualenv -p python3 /opt/app/CloudProject/env
