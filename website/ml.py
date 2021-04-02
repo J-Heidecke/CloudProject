@@ -10,6 +10,9 @@ import sklearn
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import Perceptron
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression, Lasso, Ridge
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
@@ -115,7 +118,8 @@ class handler:
         self.user_path = user_path
 
     def data_wrangler(self):
-        if self.ml_type == 'classification':
+
+        #if self.ml_type == 'classification':
             result = []
 
             for x in self.data_frame.columns:
@@ -126,9 +130,6 @@ class handler:
             y = self.data_frame[self.target].values
             del self.data_frame
             return X, y
-
-        elif self.my_type == 'regression':
-            del self.data_frame
 
     def analysis(self):
         X, y = self.data_wrangler()
@@ -150,13 +151,18 @@ class handler:
             return output
 
         elif self.ml_type == 'regression':
-            model_list = []
+            model_list = [
+                ('Linear Regression', LinearRegression()),
+                ('Lasso', Lasso()),
+                ('Ridge', Ridge()),
+                ('DecisionTreeRegressor', DecisionTreeRegressor())]
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=20)
 
-            for model in model_list:
+            for model_name, model in model_list:
 
-                name = str(model).split('(')
                 name_dict = {}
-                model_output = []
+                model.fit(X_train, y_train)
+                name_dict[model_name] = model.score(X_test, y_test)
                 output.append(name_dict)
 
             return output
@@ -175,8 +181,3 @@ class handler:
             pk.dump(output, fp)
 
 
-#df = pd.read_csv("../../Data/heart.csv", na_values=['NA', '?'])
-#df = df.reindex(np.random.permutation(df.index))
-#data_handler = handler(df, 'pic', 'classification', 'target')
-#outcome = data_handler.analysis()
-#
