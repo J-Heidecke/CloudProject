@@ -4,7 +4,7 @@ import pandas as pd
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, send_from_directory
 from website import app, db, bcrypt 
-from website.forms import RegistrationForm, LoginForm, UpdateAccountForm, DataInputForm
+from website.forms import RegistrationForm, LoginForm, UpdateAccountForm, DataInputForm, VisualizationForm
 from website.db_models import User, Query
 from flask_login import login_user, current_user, logout_user, login_required
 from website.ml import handler
@@ -107,8 +107,41 @@ def query():
 @login_required
 def results():
 	posts = Query.query.filter_by(user_id=current_user.id).all()
-	#return send_from_directory(download_path, filename='plot1.png')
-	return render_template('results.html', title='Results', posts=posts)
+	paths = []
+	recover_titles = []
+	image_files = []
+	image_data = []
+
+	for post in posts:
+		recover_title = post.recover_title
+		recover_titles.append(recover_title)
+
+	for post in posts:
+		viz_path = os.path.join(app.root_path, 'static', 'file_system', str(current_user.id), 'results', post.recover_title)
+		paths.append(viz_path)
+	
+	for path in paths:
+		images = []
+		files = os.listdir(path)
+		for file in files:
+			if file.endswith('.png'):
+				images.append(file)
+		image_files.append(images)
+
+	for path in range(len(paths)):
+		current_recover_title = recover_titles[path]
+		current_images = image_files[path]
+		images = []
+		for image in current_images:
+			image_path = url_for('static', filename='file_system/' + str(current_user.id) + '/results/' + current_recover_title + '/' + image)
+			images.append(image_path)	
+		image_data.append(images)
+
+	output = []
+	for images, posts in zip(image_data, posts):
+		output.append((images, posts))
+
+	return render_template('results.html', title='Results', output=output)
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)

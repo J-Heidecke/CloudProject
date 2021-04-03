@@ -34,7 +34,9 @@ class create_vis:
         df = pd.read_csv(csv_file)
         
         for i in range(1, len(df.columns)): 
-            plt.scatter(df.iloc[i-1], df.iloc[i])
+            plt.scatter(df.iloc[i-1], df.iloc[i], s=100)
+            plt.xlabel(df.columns[i-1])
+            plt.ylabel(df.columns[i])
             plot_path = os.path.join(self.destination + '/' + 'plot' + str(i))
             plt.savefig(plot_path)
             plt.clf()

@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[124]:
-
-
 import numpy as np
 import pandas as pd
 import sklearn
@@ -24,9 +21,6 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 import os
 import _pickle as pk
-
-# In[125]:
-
 
 # Statistics for Analysis
 
@@ -179,5 +173,3 @@ class handler:
         output_path = os.path.join(query_path, f_name)
         with open(output_path, 'wb') as fp:
             pk.dump(output, fp)
-
-

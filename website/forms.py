@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from website.db_models import User
+from website.db_models import User, Query
 
 class RegistrationForm(FlaskForm):
 	username = StringField('Username',
@@ -70,8 +70,20 @@ class DataInputForm(FlaskForm):
 
 	csv = FileField('Submit CSV File', validators=[DataRequired(), FileAllowed(['csv'])])
 
-	ml_type = StringField('Machine Learning Type', validators=[DataRequired()])
+	ml_type = SelectField('Machine Learning Type',
+	        choices=[('classification', 'Classification'), ('regression', 'Regression')],
+	        validators=[DataRequired()])
 	target = StringField('Target', validators=[DataRequired()])
 
 	submit = SubmitField('Submit File')
-			
+
+class VisualizationForm(FlaskForm):
+	#recover_titles = posts.recover_titles
+	#names = posts.name
+	#selections=[]
+	#for title, names in zip(recover_titles, names):
+	#	selections.append(title, names)
+
+	job = SelectField('Job Visualizations',
+		choices=[])
+	submit = SubmitField('Submit File')
