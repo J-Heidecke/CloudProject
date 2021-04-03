@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.7
 
 # Create a virtualenv for dependencies. This isolates these packages from
 # system-level packages.
@@ -21,4 +21,4 @@ WORKDIR /app
 # Run a WSGI server to serve the application. gunicorn must be declared as
 # a dependency in requirements.txt.
 
-ENTRYPOINT ["gunicorn", "-b", ":8080", "server:app"]s
+ENTRYPOINT ["gunicorn", "-b", ":8080", "main:app"]
