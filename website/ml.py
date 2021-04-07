@@ -103,6 +103,10 @@ class crossValidation:
 
         return result
 
+# This class handles the Machine Learning back-end.
+# 1. It receives the data from the user input 
+# 2. It performs machine learning
+# 3. It saves the output 
 class handler:
     def __init__(self, data_frame, file_name, ml_type, target, user_path):
         self.data_frame = data_frame
@@ -111,6 +115,8 @@ class handler:
         self.file_name = file_name
         self.user_path = user_path
 
+    # This method seperates the target from the rest of the data.
+    # And returns the target and data 
     def data_wrangler(self):
 
         #if self.ml_type == 'classification':
@@ -125,6 +131,9 @@ class handler:
             del self.data_frame
             return X, y
 
+    # This method performs machine learning 
+    # The user selects classification or regression
+    # The results are evaluated and returned.
     def analysis(self):
         X, y = self.data_wrangler()
         output = []
@@ -161,6 +170,8 @@ class handler:
 
             return output
 
+    # This method saves the output of analysis and saves them 
+    # as an .ob file.
     def save_data(self):
         output = self.analysis()
         results_path = os.path.join(self.user_path, 'results')

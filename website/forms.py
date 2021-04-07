@@ -1,3 +1,7 @@
+# The production of this application was influenced by the following sources:
+# https://www.youtube.com/playlist?list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH 
+# - Flask Tutorials by Corey Schafer 
+
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
@@ -75,15 +79,4 @@ class DataInputForm(FlaskForm):
 	        validators=[DataRequired()])
 	target = StringField('Target', validators=[DataRequired()])
 
-	submit = SubmitField('Submit File')
-
-class VisualizationForm(FlaskForm):
-	#recover_titles = posts.recover_titles
-	#names = posts.name
-	#selections=[]
-	#for title, names in zip(recover_titles, names):
-	#	selections.append(title, names)
-
-	job = SelectField('Job Visualizations',
-		choices=[])
 	submit = SubmitField('Submit File')

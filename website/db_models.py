@@ -1,11 +1,17 @@
+# The production of this application was influenced by the following sources:
+# https://www.youtube.com/playlist?list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH 
+# - Flask Tutorials by Corey Schafer 
+
 from datetime import datetime
 from website import db, login_manager
 from flask_login import UserMixin
 
+# If the user is logged in it gets the user's data
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# Database model for user data
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -17,7 +23,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
-
+# Database model for Query data
 class Query(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)

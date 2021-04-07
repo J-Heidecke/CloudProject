@@ -5,13 +5,22 @@ import PIL
 import os
 import _pickle as pk
 
+# This class handles the creation of 
+# the visualizations to be displayed to the user.
 class create_vis:
+
+    # The class takes the job name (recover title),
+    # and the path to static as an input, and creates 
+    # A path to the data and destination. 
     def __init__(self, job_name, file_system_path):
         self.file_path = os.path.join(file_system_path, 'results/')
         self.data_path = os.path.join(file_system_path, 'data')
         self.job_name = job_name
         self.destination = os.path.join(self.file_path + '/' + self.job_name)
 
+    # This method loads the data saved in the metrics.ob file
+    # And uses it to create visualizations
+    # It saves these graphs in the destination path
     def load_data(self):
         results = []
         file = os.path.join(self.destination + '/' + self.job_name + 'metrics.ob')
