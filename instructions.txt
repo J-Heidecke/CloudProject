@@ -1,0 +1,48 @@
+Creating:
+
+1. Open Cloud Shell Terminal
+2. gcloud components install kubectl
+3. git clone GitHub Repository 
+4. export PROJECT_ID= Your current project ID
+5. docker build -t gcr.io/${PROJECT_ID}/hello-app:v1 .
+6. docker run --rm -p 8080:8080 gcr.io/${PROJECT_ID}/hello-app:v1 - Check if app run
+7. gcloud services enable containerregistry.googleapis.com
+8. gcloud auth configure-docker
+9. docker push gcr.io/${PROJECT_ID}/hello-app:v1
+10. gcloud config set project $PROJECT_ID
+11. gcloud config set compute/region europe-west2-a
+12. gcloud services enable container.googleapis.com - enable google api
+13. gcloud container clusters create-auto hello-cluster --zone europe-west2-a
+14. gcloud container clusters get-credentials hello-cluster --zone europe-west2-a
+15. kubectl create deployment hello-app --image=gcr.io/${PROJECT_ID}/hello-app:v1
+16. kubectl scale deployment hello-app --replicas=3
+17. kubectl autoscale deployment hello-app --cpu-percent=80 --min=1 --max=5
+18. kubectl expose deployment hello-app --name=hello-app-service --type=LoadBalancer --port 80 --target-port 8080
+19. kubectl get service -> use External IP to access machine
+
+Deleting:
+
+1. kubectl delete service hello-app-service
+2. gcloud container clusters delete hello-cluster --zone europe-west2-a
+
+
+Setting google cloud storage
+1. export BUCKET_NAME= YOUR BUCKET NAME
+2. gsutil mb -c STANDARD -l europe-west2 gs://${BUCKET_NAME}
+
+
+Uploading files into a bucket without directory structure in google cloud storage, before setting the path, folders need to be created on vm.
+
+1. export COMMON_PATH=./website/static/file_system/
+2. gsutil cp -r ${COMMON_PATH} gs://${BUCKET_NAME}
+
+
+Listing the google objects inside the storage
+1. gsutil ls -r gs://${BUCKET_NAME}/**
+
+Deleting buckets
+1. gsutil rm -r gs://${BUCKET_NAME}
+
+Deleting Objects, use listing google objects before to see the storage path
+1. export OBJECT_NAME= PATH after BUCKET_NAME 
+1. gsutil rm gs://${BUCKET_NAME}/${OBJECT_NAME}
