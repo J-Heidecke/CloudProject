@@ -10,15 +10,14 @@ Creating:
 8. gcloud auth configure-docker
 9. docker push gcr.io/${PROJECT_ID}/hello-app:v1
 10. gcloud config set project $PROJECT_ID
-11. gcloud config set compute/region europe-west2-a
-12. gcloud services enable container.googleapis.com - enable google api
-13. gcloud container clusters create-auto hello-cluster --zone europe-west2-a
-14. gcloud container clusters get-credentials hello-cluster --zone europe-west2-a
-15. kubectl create deployment hello-app --image=gcr.io/${PROJECT_ID}/hello-app:v1
-16. kubectl scale deployment hello-app --replicas=3
-17. kubectl autoscale deployment hello-app --cpu-percent=80 --min=1 --max=5
-18. kubectl expose deployment hello-app --name=hello-app-service --type=LoadBalancer --port 80 --target-port 8080
-19. kubectl get service -> use External IP to access machine
+11. gcloud config set compute/zone europe-west2-a
+12. gcloud container clusters create hello-cluster
+13. gcloud container clusters get-credentials hello-cluster --zone europe-west2-a
+14. kubectl create deployment hello-app --image=gcr.io/${PROJECT_ID}/hello-app:v1
+15. kubectl scale deployment hello-app --replicas=3
+16. kubectl autoscale deployment hello-app --cpu-percent=80 --min=1 --max=5
+17. kubectl expose deployment hello-app --name=hello-app-service --type=LoadBalancer --port 80 --target-port 8080
+18. kubectl get service -> use External IP to access machine
 
 Deleting:
 
